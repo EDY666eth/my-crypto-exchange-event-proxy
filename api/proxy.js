@@ -12,11 +12,13 @@ export default async function handler(req, res) {
     const targetUrl = req.query.url;
     if (!targetUrl) return res.status(400).json({ error: 'Missing url parameter' });
 
-    // 👇 你的 ScraperAPI 專屬金鑰已經自動填入 👇
+    // 你的 ScraperAPI 專屬金鑰
     const SCRAPER_API_KEY = 'f745470ece5234dd702e65f95c5424d9';
 
-    // 啟動 ScraperAPI 引擎，調用全球真實住宅 IP 突破 Cloudflare 防線
-    const proxyUrl = `http://api.scraperapi.com?api_key=${SCRAPER_API_KEY}&url=${encodeURIComponent(targetUrl)}`;
+    // 🚀 【終極防護穿透引擎】 🚀
+    // 加上 premium=true (啟動最高級住宅 IP，硬穿防火牆)
+    // 加上 country_code=tw (強制鎖定台灣 IP，逼幣安吐出中文)
+    const proxyUrl = `http://api.scraperapi.com?api_key=${SCRAPER_API_KEY}&url=${encodeURIComponent(targetUrl)}&premium=true&country_code=tw`;
 
     try {
         const response = await fetch(proxyUrl);
@@ -27,9 +29,9 @@ export default async function handler(req, res) {
 
         const data = await response.text();
         
-        // 判斷回傳類型，確保前端能正確解析 JSON 或 XML
+        // 判斷回傳類型
         if (data.trim().startsWith('<')) {
-            res.setHeader('Content-Type', 'text/xml; charset=utf-8');
+            res.setHeader('Content-Type', 'text/html; charset=utf-8');
         } else {
             res.setHeader('Content-Type', 'application/json; charset=utf-8');
         }
